@@ -1,32 +1,8 @@
 import pool from '@/lib/db';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import LeaderboardTable from '@/components/leaderboard-table';
 
-interface LeaderboardRow {
-  champion_name: string;
-  role: string;
-  games_played: string;
-  wins: string;
-  win_rate_pct: string;
-  avg_kills: string;
-  avg_deaths: string;
-  avg_assists: string;
-}
-
-async function getLeaderboard(): Promise<LeaderboardRow[]> {
+async function getLeaderboard() {
   const result = await pool.query(`
     SELECT
         c.name AS champion_name,
@@ -57,34 +33,7 @@ export default async function Home() {
           <CardTitle>Champion Leaderboard</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Champion</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead className="text-right">Games</TableHead>
-                <TableHead className="text-right">Win Rate</TableHead>
-                <TableHead className="text-right">K</TableHead>
-                <TableHead className="text-right">D</TableHead>
-                <TableHead className="text-right">A</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {leaderboard.map((row, i) => (
-                <TableRow key={i}>
-                  <TableCell className="font-medium">{row.champion_name}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{row.role}</Badge>
-                  </TableCell>
-                  <TableCell className="text-right">{row.games_played}</TableCell>
-                  <TableCell className="text-right">{row.win_rate_pct}%</TableCell>
-                  <TableCell className="text-right">{row.avg_kills}</TableCell>
-                  <TableCell className="text-right">{row.avg_deaths}</TableCell>
-                  <TableCell className="text-right">{row.avg_assists}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <LeaderboardTable data={leaderboard} />
         </CardContent>
       </Card>
     </main>
