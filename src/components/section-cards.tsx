@@ -11,30 +11,33 @@ import {
 } from "@/components/ui/card"
 import { TrendUpIcon, TrendDownIcon } from "@phosphor-icons/react"
 
-export function SectionCards() {
+interface MostPlayedChampion {
+  champion_name: string
+  games_played: string
+}
+
+export function SectionCards({
+  mostPlayedChampion,
+}: {
+  mostPlayedChampion?: MostPlayedChampion
+}) {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Most Played Champion</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {mostPlayedChampion?.champion_name ?? "—"}
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <TrendUpIcon
-              />
-              +12.5%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month{" "}
-            <TrendUpIcon className="size-4" />
+            {mostPlayedChampion
+              ? `${Number(mostPlayedChampion.games_played).toLocaleString()} games played`
+              : "No data yet"}
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            Across all roles and queues
           </div>
         </CardFooter>
       </Card>

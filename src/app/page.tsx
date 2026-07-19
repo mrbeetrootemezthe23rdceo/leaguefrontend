@@ -7,6 +7,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import LeaderboardTable from "@/components/leaderboard-table"
 import pool from "@/lib/db"
 
+async function getMostPlayedChampion() {
+  const result = await pool.query(`
+    SELECT
+        c.name AS champion_name,
+        COUNT(*) AS games_played
+    FROM participants p
+    JOIN champions c ON p.champion_id = c.champion_id
+    GROUP BY c.name
+    ORDER BY games_played DESC
+    LIMIT 1;
+  `);
+  return result.rows[0];
+}
+
 async function getLeaderboard() {
   const result = await pool.query(`
     SELECT
@@ -30,6 +44,7 @@ async function getLeaderboard() {
 
 export default async function Page() {
   const leaderboard = await getLeaderboard();
+  const mostPlayedChampion = await getMostPlayedChampion();
 
   return (
     <SidebarProvider
@@ -46,7 +61,7 @@ export default async function Page() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards />
+              <SectionCards mostPlayedChampion={mostPlayedChampion} />
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive />
               </div>

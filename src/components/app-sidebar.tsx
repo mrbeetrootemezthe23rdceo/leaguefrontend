@@ -15,7 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, GearIcon, QuestionIcon, MagnifyingGlassIcon, DatabaseIcon, ChartLineIcon, FileIcon, CommandIcon } from "@phosphor-icons/react"
+import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, GearIcon, QuestionIcon, MagnifyingGlassIcon, DatabaseIcon, FileIcon, CommandIcon } from "@phosphor-icons/react"
 
 const data = {
   user: {
@@ -115,6 +115,14 @@ const data = {
         />
       ),
     },
+    {
+      title: "FAQ",
+      url: "/faq",
+      icon: (
+        <FileTextIcon
+        />
+      ),
+    },
   ],
   documents: [
     {
@@ -122,14 +130,6 @@ const data = {
       url: "#",
       icon: (
         <DatabaseIcon
-        />
-      ),
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: (
-        <ChartLineIcon
         />
       ),
     },
