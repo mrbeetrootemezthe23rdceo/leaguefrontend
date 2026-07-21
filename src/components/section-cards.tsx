@@ -9,17 +9,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { TrendUpIcon, TrendDownIcon } from "@phosphor-icons/react"
+import { TrendUpIcon } from "@phosphor-icons/react"
 
 interface MostPlayedChampion {
   champion_name: string
   games_played: string
 }
 
+interface HighestWinRateChampion {
+  champion_name: string
+  games_played: string
+  win_rate_pct: string
+}
+
 export function SectionCards({
   mostPlayedChampion,
+  highestWinRateChampion,
+  totalMatches,
 }: {
   mostPlayedChampion?: MostPlayedChampion
+  highestWinRateChampion?: HighestWinRateChampion
+  totalMatches?: number
 }) {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
@@ -33,7 +43,7 @@ export function SectionCards({
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
             {mostPlayedChampion
-              ? `${Number(mostPlayedChampion.games_played).toLocaleString()} games played`
+              ? `${Number(mostPlayedChampion.games_played).toLocaleString("en-US")} games played`
               : "No data yet"}
           </div>
           <div className="text-muted-foreground">
@@ -43,48 +53,34 @@ export function SectionCards({
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Highest Win Rate</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {highestWinRateChampion?.champion_name ?? "—"}
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <TrendDownIcon
-              />
-              -20%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period{" "}
-            <TrendDownIcon className="size-4" />
+            {highestWinRateChampion
+              ? `${highestWinRateChampion.win_rate_pct}% win rate`
+              : "No data yet"}
           </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            Min. 50 games played to qualify
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Total Matches Tracked</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {totalMatches !== undefined ? totalMatches.toLocaleString("en-US") : "—"}
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <TrendUpIcon
-              />
-              +12.5%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention{" "}
-            <TrendUpIcon className="size-4" />
+            Matches ingested to date
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">From the leaguepipeline ingestion job</div>
         </CardFooter>
       </Card>
       <Card className="@container/card">

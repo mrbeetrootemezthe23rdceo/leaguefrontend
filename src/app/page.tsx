@@ -21,6 +21,42 @@ async function getMostPlayedChampion() {
   return result.rows[0];
 }
 
+async function getHighestWinRateChampion() {
+  const result = await pool.query(`
+    SELECT
+        c.name AS champion_name,
+        COUNT(*) AS games_played,
+        ROUND(100.0 * SUM(CASE WHEN p.win THEN 1 ELSE 0 END) / COUNT(*), 1) AS win_rate_pct
+    FROM participants p
+    JOIN champions c ON p.champion_id = c.champion_id
+    GROUP BY c.name
+    HAVING COUNT(*) > 50
+    ORDER BY win_rate_pct DESC
+    LIMIT 1;
+  `);
+  return result.rows[0];
+}
+
+async function getTotalMatches() {
+  const result = await pool.query(`SELECT COUNT(*) AS total_matches FROM matches;`);
+  return Number(result.rows[0].total_matches);
+}
+
+async function getMatchesByMonth() {
+  const result = await pool.query(`
+    SELECT
+        TO_CHAR(DATE_TRUNC('month', game_creation_ts), 'YYYY-MM-DD') AS match_month,
+        COUNT(*) AS matches_count
+    FROM matches
+    GROUP BY match_month
+    ORDER BY match_month;
+  `);
+  return result.rows.map((row) => ({
+    month: row.match_month as string,
+    matches: Number(row.matches_count),
+  }));
+}
+
 async function getLeaderboard() {
   const result = await pool.query(`
     SELECT
@@ -45,6 +81,9 @@ async function getLeaderboard() {
 export default async function Page() {
   const leaderboard = await getLeaderboard();
   const mostPlayedChampion = await getMostPlayedChampion();
+  const highestWinRateChampion = await getHighestWinRateChampion();
+  const totalMatches = await getTotalMatches();
+  const matchesByMonth = await getMatchesByMonth();
 
   return (
     <SidebarProvider
@@ -61,9 +100,13 @@ export default async function Page() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards mostPlayedChampion={mostPlayedChampion} />
+              <SectionCards
+                mostPlayedChampion={mostPlayedChampion}
+                highestWinRateChampion={highestWinRateChampion}
+                totalMatches={totalMatches}
+              />
               <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+                <ChartAreaInteractive data={matchesByMonth} />
               </div>
               <div className="px-4 lg:px-6">
                 <Card>
