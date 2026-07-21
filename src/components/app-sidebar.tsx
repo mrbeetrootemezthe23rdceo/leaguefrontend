@@ -15,7 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, GearIcon, QuestionIcon, MagnifyingGlassIcon, DatabaseIcon, FileIcon, CommandIcon } from "@phosphor-icons/react"
+import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, GearIcon, DatabaseIcon, CommandIcon } from "@phosphor-icons/react"
 
 const data = {
   user: {
@@ -100,22 +100,6 @@ const data = {
       ),
     },
     {
-      title: "Get Help",
-      url: "#",
-      icon: (
-        <QuestionIcon
-        />
-      ),
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: (
-        <MagnifyingGlassIcon
-        />
-      ),
-    },
-    {
       title: "FAQ",
       url: "/faq",
       icon: (
@@ -130,14 +114,6 @@ const data = {
       url: "#",
       icon: (
         <DatabaseIcon
-        />
-      ),
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: (
-        <FileIcon
         />
       ),
     },

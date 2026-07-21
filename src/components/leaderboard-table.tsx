@@ -93,7 +93,9 @@ export default function LeaderboardTable({
         multiple={false}
         value={[view]}
         onValueChange={(value) => {
-          setView((value[0] as ViewMode) ?? 'role');
+          if (value.length > 0) {
+            setView(value[0] as ViewMode);
+          }
         }}
         variant="outline"
         className="self-start"
