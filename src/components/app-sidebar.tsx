@@ -15,7 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, GearIcon, DatabaseIcon, CommandIcon } from "@phosphor-icons/react"
+import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, DatabaseIcon, CommandIcon } from "@phosphor-icons/react"
 
 const data = {
   user: {
@@ -91,14 +91,6 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <GearIcon
-        />
-      ),
-    },
     {
       title: "FAQ",
       url: "/faq",
