@@ -16,9 +16,8 @@ This app is read-only — never writes to the database.
   Riot's API, collected into an array during ingestion).
 
 ## Site structure
-- `/` — Dashboard (shadcn dashboard-01 block, currently placeholder data)
-- `/data` — Champion leaderboard (real Postgres data, sortable table)
-- Planned: gold/XP curve chart, match replay feed, item win rates
+- `/` — Main dashboard (real Postgres data, champion leaderboard, sortable table)
+- `/about` — About page
 
 ## Working style
 Go ahead and write/edit the frontend code directly — I'm fine with that.

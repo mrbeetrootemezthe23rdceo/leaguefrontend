@@ -25,7 +25,7 @@ const data = {
       ),
     },
     {
-      title: "About data",
+      title: "About",
       url: "/faq",
       icon: (
         <FileTextIcon
