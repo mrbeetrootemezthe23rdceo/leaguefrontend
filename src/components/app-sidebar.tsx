@@ -115,7 +115,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter className="group-data-[collapsible=icon]:hidden">
         <p className="px-2 py-1 text-xs text-muted-foreground">
           This project is not officially endorsed or related to Riot Games.
-          Data sourced from official League of Legends public API.
+          Data sourced from the official League of Legends public API.
         </p>
       </SidebarFooter>
     </Sidebar>
