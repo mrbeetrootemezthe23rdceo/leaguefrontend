@@ -46,7 +46,7 @@ const chartConfig = {
 
 export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
   const isMobile = useIsMobile()
-  const [timeRange, setTimeRange] = React.useState("12m")
+  const [timeRange, setTimeRange] = React.useState("6m")
 
   React.useEffect(() => {
     if (isMobile) {
@@ -78,14 +78,16 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
           <span className="hidden @[540px]/card:block">
             Tracked matches played, by month
           </span>
-          <span className="@[540px]/card:hidden">Last 12 months</span>
+          <span className="@[540px]/card:hidden">Last 6 months</span>
         </CardDescription>
         <CardAction>
           <ToggleGroup
             multiple={false}
             value={timeRange ? [timeRange] : []}
             onValueChange={(value) => {
-              setTimeRange(value[0] ?? "12m")
+              if (value.length > 0) {
+                setTimeRange(value[0])
+              }
             }}
             variant="outline"
             className="hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"
@@ -107,7 +109,7 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
               size="sm"
               aria-label="Select a value"
             >
-              <SelectValue placeholder="Last 12 months" />
+              <SelectValue placeholder="Last 6 months" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
               <SelectItem value="12m" className="rounded-lg">

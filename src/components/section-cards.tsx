@@ -1,15 +1,12 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { TrendUpIcon } from "@phosphor-icons/react"
 
 interface MostPlayedChampion {
   champion_name: string
@@ -22,14 +19,21 @@ interface HighestWinRateChampion {
   win_rate_pct: string
 }
 
+interface MostActiveMonth {
+  month: string
+  matches: number
+}
+
 export function SectionCards({
   mostPlayedChampion,
   highestWinRateChampion,
   totalMatches,
+  mostActiveMonth,
 }: {
   mostPlayedChampion?: MostPlayedChampion
   highestWinRateChampion?: HighestWinRateChampion
   totalMatches?: number
+  mostActiveMonth?: MostActiveMonth
 }) {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
@@ -85,24 +89,23 @@ export function SectionCards({
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Most Active Month</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {mostActiveMonth
+              ? new Date(mostActiveMonth.month).toLocaleDateString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })
+              : "—"}
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <TrendUpIcon
-              />
-              +4.5%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase{" "}
-            <TrendUpIcon className="size-4" />
+            {mostActiveMonth
+              ? `${mostActiveMonth.matches.toLocaleString("en-US")} games ingested`
+              : "No data yet"}
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">Busiest month tracked so far</div>
         </CardFooter>
       </Card>
     </div>

@@ -104,6 +104,9 @@ export default async function Page() {
   const highestWinRateChampion = await getHighestWinRateChampion();
   const totalMatches = await getTotalMatches();
   const matchesByMonth = await getMatchesByMonth();
+  const mostActiveMonth = matchesByMonth.reduce<
+    { month: string; matches: number } | undefined
+  >((max, current) => (!max || current.matches > max.matches ? current : max), undefined);
 
   return (
     <SidebarProvider
@@ -124,6 +127,7 @@ export default async function Page() {
                 mostPlayedChampion={mostPlayedChampion}
                 highestWinRateChampion={highestWinRateChampion}
                 totalMatches={totalMatches}
+                mostActiveMonth={mostActiveMonth}
               />
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive data={matchesByMonth} />
