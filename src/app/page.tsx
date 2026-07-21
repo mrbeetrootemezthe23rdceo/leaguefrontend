@@ -11,10 +11,11 @@ async function getMostPlayedChampion() {
   const result = await pool.query(`
     SELECT
         c.name AS champion_name,
+        c.riot_id AS riot_id,
         COUNT(*) AS games_played
     FROM participants p
     JOIN champions c ON p.champion_id = c.champion_id
-    GROUP BY c.name
+    GROUP BY c.name, c.riot_id
     ORDER BY games_played DESC
     LIMIT 1;
   `);
@@ -25,11 +26,12 @@ async function getHighestWinRateChampion() {
   const result = await pool.query(`
     SELECT
         c.name AS champion_name,
+        c.riot_id AS riot_id,
         COUNT(*) AS games_played,
         ROUND(100.0 * SUM(CASE WHEN p.win THEN 1 ELSE 0 END) / COUNT(*), 1) AS win_rate_pct
     FROM participants p
     JOIN champions c ON p.champion_id = c.champion_id
-    GROUP BY c.name
+    GROUP BY c.name, c.riot_id
     HAVING COUNT(*) > 50
     ORDER BY win_rate_pct DESC
     LIMIT 1;
@@ -61,6 +63,7 @@ async function getChampionLeaderboard() {
   const result = await pool.query(`
     SELECT
         c.name AS champion_name,
+        c.riot_id AS riot_id,
         COUNT(*) AS games_played,
         SUM(CASE WHEN p.win THEN 1 ELSE 0 END) AS wins,
         ROUND(100.0 * SUM(CASE WHEN p.win THEN 1 ELSE 0 END) / COUNT(*), 1) AS win_rate_pct,
@@ -69,7 +72,7 @@ async function getChampionLeaderboard() {
         ROUND(AVG(p.assists), 1) AS avg_assists
     FROM participants p
     JOIN champions c ON p.champion_id = c.champion_id
-    GROUP BY c.name
+    GROUP BY c.name, c.riot_id
     HAVING COUNT(*) >= 5
     ORDER BY games_played DESC;
   `);
@@ -80,6 +83,7 @@ async function getLeaderboard() {
   const result = await pool.query(`
     SELECT
         c.name AS champion_name,
+        c.riot_id AS riot_id,
         p.role,
         COUNT(*) AS games_played,
         SUM(CASE WHEN p.win THEN 1 ELSE 0 END) AS wins,
@@ -90,7 +94,7 @@ async function getLeaderboard() {
     FROM participants p
     JOIN champions c ON p.champion_id = c.champion_id
     WHERE p.role != ''
-    GROUP BY c.name, p.role
+    GROUP BY c.name, c.riot_id, p.role
     HAVING COUNT(*) >= 5
     ORDER BY games_played DESC;
   `);

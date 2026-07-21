@@ -12,9 +12,11 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ArrowUpDown } from 'lucide-react';
+import { championIconUrl } from '@/lib/ddragon';
 
 interface RoleRow {
   champion_name: string;
+  riot_id: string;
   role: string;
   games_played: string;
   wins: string;
@@ -26,6 +28,7 @@ interface RoleRow {
 
 interface ChampionRow {
   champion_name: string;
+  riot_id: string;
   games_played: string;
   wins: string;
   win_rate_pct: string;
@@ -122,7 +125,16 @@ export default function LeaderboardTable({
         <TableBody>
           {sorted.map((row, i) => (
             <TableRow key={i}>
-              <TableCell className="font-medium">{row.champion_name}</TableCell>
+              <TableCell className="font-medium">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={championIconUrl(row.riot_id)}
+                    alt={row.champion_name}
+                    className="size-6 rounded-full"
+                  />
+                  {row.champion_name}
+                </div>
+              </TableCell>
               {view === 'role' && (
                 <TableCell>
                   <Badge variant="secondary">

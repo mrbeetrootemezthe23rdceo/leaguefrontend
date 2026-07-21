@@ -7,14 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { championIconUrl } from "@/lib/ddragon"
 
 interface MostPlayedChampion {
   champion_name: string
+  riot_id: string
   games_played: string
 }
 
 interface HighestWinRateChampion {
   champion_name: string
+  riot_id: string
   games_played: string
   win_rate_pct: string
 }
@@ -40,7 +43,14 @@ export function SectionCards({
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Most Played Champion</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          <CardTitle className="flex items-center gap-2 text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {mostPlayedChampion && (
+              <img
+                src={championIconUrl(mostPlayedChampion.riot_id)}
+                alt={mostPlayedChampion.champion_name}
+                className="size-7 rounded-full"
+              />
+            )}
             {mostPlayedChampion?.champion_name ?? "—"}
           </CardTitle>
         </CardHeader>
@@ -58,7 +68,14 @@ export function SectionCards({
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Highest Win Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+          <CardTitle className="flex items-center gap-2 text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {highestWinRateChampion && (
+              <img
+                src={championIconUrl(highestWinRateChampion.riot_id)}
+                alt={highestWinRateChampion.champion_name}
+                className="size-7 rounded-full"
+              />
+            )}
             {highestWinRateChampion?.champion_name ?? "—"}
           </CardTitle>
         </CardHeader>
