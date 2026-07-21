@@ -57,6 +57,25 @@ async function getMatchesByMonth() {
   }));
 }
 
+async function getChampionLeaderboard() {
+  const result = await pool.query(`
+    SELECT
+        c.name AS champion_name,
+        COUNT(*) AS games_played,
+        SUM(CASE WHEN p.win THEN 1 ELSE 0 END) AS wins,
+        ROUND(100.0 * SUM(CASE WHEN p.win THEN 1 ELSE 0 END) / COUNT(*), 1) AS win_rate_pct,
+        ROUND(AVG(p.kills), 1) AS avg_kills,
+        ROUND(AVG(p.deaths), 1) AS avg_deaths,
+        ROUND(AVG(p.assists), 1) AS avg_assists
+    FROM participants p
+    JOIN champions c ON p.champion_id = c.champion_id
+    GROUP BY c.name
+    HAVING COUNT(*) >= 5
+    ORDER BY games_played DESC;
+  `);
+  return result.rows;
+}
+
 async function getLeaderboard() {
   const result = await pool.query(`
     SELECT
@@ -80,6 +99,7 @@ async function getLeaderboard() {
 
 export default async function Page() {
   const leaderboard = await getLeaderboard();
+  const championLeaderboard = await getChampionLeaderboard();
   const mostPlayedChampion = await getMostPlayedChampion();
   const highestWinRateChampion = await getHighestWinRateChampion();
   const totalMatches = await getTotalMatches();
@@ -114,7 +134,7 @@ export default async function Page() {
                     <CardTitle>Champion Leaderboard</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <LeaderboardTable data={leaderboard} />
+                    <LeaderboardTable roleData={leaderboard} championData={championLeaderboard} />
                   </CardContent>
                 </Card>
               </div>

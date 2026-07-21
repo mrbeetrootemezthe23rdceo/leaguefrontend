@@ -10,11 +10,22 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ArrowUpDown } from 'lucide-react';
 
-interface LeaderboardRow {
+interface RoleRow {
   champion_name: string;
   role: string;
+  games_played: string;
+  wins: string;
+  win_rate_pct: string;
+  avg_kills: string;
+  avg_deaths: string;
+  avg_assists: string;
+}
+
+interface ChampionRow {
+  champion_name: string;
   games_played: string;
   wins: string;
   win_rate_pct: string;
@@ -32,8 +43,16 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 type SortKey = 'games_played' | 'win_rate_pct' | 'avg_kills' | 'avg_deaths' | 'avg_assists';
+type ViewMode = 'role' | 'champion';
 
-export default function LeaderboardTable({ data }: { data: LeaderboardRow[] }) {
+export default function LeaderboardTable({
+  roleData,
+  championData,
+}: {
+  roleData: RoleRow[];
+  championData: ChampionRow[];
+}) {
+  const [view, setView] = useState<ViewMode>('role');
   const [sortKey, setSortKey] = useState<SortKey>('games_played');
   const [sortDesc, setSortDesc] = useState(true);
 
@@ -46,7 +65,9 @@ export default function LeaderboardTable({ data }: { data: LeaderboardRow[] }) {
     }
   }
 
-  const sorted = [...data].sort((a, b) => {
+  const activeData: (RoleRow | ChampionRow)[] = view === 'role' ? roleData : championData;
+
+  const sorted = [...activeData].sort((a, b) => {
     const aVal = Number(a[sortKey]);
     const bVal = Number(b[sortKey]);
     return sortDesc ? bVal - aVal : aVal - bVal;
@@ -67,33 +88,55 @@ export default function LeaderboardTable({ data }: { data: LeaderboardRow[] }) {
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Champion</TableHead>
-          <TableHead>Role</TableHead>
-          <SortableHead label="Games" sortKeyName="games_played" />
-          <SortableHead label="Win Rate" sortKeyName="win_rate_pct" />
-          <SortableHead label="K" sortKeyName="avg_kills" />
-          <SortableHead label="D" sortKeyName="avg_deaths" />
-          <SortableHead label="A" sortKeyName="avg_assists" />
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {sorted.map((row, i) => (
-          <TableRow key={i}>
-            <TableCell className="font-medium">{row.champion_name}</TableCell>
-            <TableCell>
-              <Badge variant="secondary">{ROLE_LABELS[row.role] ?? row.role}</Badge>
-            </TableCell>
-            <TableCell className="text-right">{row.games_played}</TableCell>
-            <TableCell className="text-right">{row.win_rate_pct}%</TableCell>
-            <TableCell className="text-right">{row.avg_kills}</TableCell>
-            <TableCell className="text-right">{row.avg_deaths}</TableCell>
-            <TableCell className="text-right">{row.avg_assists}</TableCell>
+    <div className="flex flex-col gap-4">
+      <ToggleGroup
+        multiple={false}
+        value={[view]}
+        onValueChange={(value) => {
+          setView((value[0] as ViewMode) ?? 'role');
+        }}
+        variant="outline"
+        className="self-start"
+      >
+        <ToggleGroupItem value="role" className="cursor-pointer data-[pressed]:cursor-default">
+          Show role data
+        </ToggleGroupItem>
+        <ToggleGroupItem value="champion" className="cursor-pointer data-[pressed]:cursor-default">
+          Show champion data
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Champion</TableHead>
+            {view === 'role' && <TableHead>Role</TableHead>}
+            <SortableHead label="Games" sortKeyName="games_played" />
+            <SortableHead label="Win Rate" sortKeyName="win_rate_pct" />
+            <SortableHead label="K" sortKeyName="avg_kills" />
+            <SortableHead label="D" sortKeyName="avg_deaths" />
+            <SortableHead label="A" sortKeyName="avg_assists" />
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {sorted.map((row, i) => (
+            <TableRow key={i}>
+              <TableCell className="font-medium">{row.champion_name}</TableCell>
+              {view === 'role' && (
+                <TableCell>
+                  <Badge variant="secondary">
+                    {ROLE_LABELS[(row as RoleRow).role] ?? (row as RoleRow).role}
+                  </Badge>
+                </TableCell>
+              )}
+              <TableCell className="text-right">{row.games_played}</TableCell>
+              <TableCell className="text-right">{row.win_rate_pct}%</TableCell>
+              <TableCell className="text-right">{row.avg_kills}</TableCell>
+              <TableCell className="text-right">{row.avg_deaths}</TableCell>
+              <TableCell className="text-right">{row.avg_assists}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
