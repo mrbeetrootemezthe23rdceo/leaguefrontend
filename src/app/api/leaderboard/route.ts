@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 
+export const revalidate = 120; // revalidate this page every 2 minutes
+
 export async function GET() {
   try {
     const result = await pool.query(`

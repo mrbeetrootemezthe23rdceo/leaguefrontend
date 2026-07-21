@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import LeaderboardTable from "@/components/leaderboard-table"
 import pool from "@/lib/db"
 
+export const revalidate = 120; // revalidate this page every 2 minutes
+
 async function getMostPlayedChampion() {
   const result = await pool.query(`
     SELECT
