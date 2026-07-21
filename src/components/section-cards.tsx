@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { championIconUrl } from "@/lib/ddragon"
+import { championLoadingImageUrl } from "@/lib/ddragon"
 
 interface MostPlayedChampion {
   champion_name: string
@@ -40,21 +40,14 @@ export function SectionCards({
 }) {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
-      <Card className="@container/card">
-        <CardHeader>
+      <Card className="@container/card relative overflow-hidden">
+        <CardHeader className="relative z-10">
           <CardDescription>Most Played Champion</CardDescription>
-          <CardTitle className="flex items-center gap-2 text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {mostPlayedChampion && (
-              <img
-                src={championIconUrl(mostPlayedChampion.riot_id)}
-                alt={mostPlayedChampion.champion_name}
-                className="size-7 rounded-full"
-              />
-            )}
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {mostPlayedChampion?.champion_name ?? "—"}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="relative z-10 flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
             {mostPlayedChampion
               ? `${Number(mostPlayedChampion.games_played).toLocaleString("en-US")} games played`
@@ -64,22 +57,22 @@ export function SectionCards({
             Across all roles and queues
           </div>
         </CardFooter>
+        {mostPlayedChampion && (
+          <img
+            src={championLoadingImageUrl(mostPlayedChampion.riot_id)}
+            alt=""
+            className="absolute inset-y-0 right-0 w-28 object-cover object-top [mask-image:linear-gradient(to_left,black_60%,transparent)] [-webkit-mask-image:linear-gradient(to_left,black_60%,transparent)]"
+          />
+        )}
       </Card>
-      <Card className="@container/card">
-        <CardHeader>
+      <Card className="@container/card relative overflow-hidden">
+        <CardHeader className="relative z-10">
           <CardDescription>Highest Win Rate</CardDescription>
-          <CardTitle className="flex items-center gap-2 text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {highestWinRateChampion && (
-              <img
-                src={championIconUrl(highestWinRateChampion.riot_id)}
-                alt={highestWinRateChampion.champion_name}
-                className="size-7 rounded-full"
-              />
-            )}
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {highestWinRateChampion?.champion_name ?? "—"}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="relative z-10 flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
             {highestWinRateChampion
               ? `${highestWinRateChampion.win_rate_pct}% win rate`
@@ -89,6 +82,13 @@ export function SectionCards({
             Min. 50 games played to qualify
           </div>
         </CardFooter>
+        {highestWinRateChampion && (
+          <img
+            src={championLoadingImageUrl(highestWinRateChampion.riot_id)}
+            alt=""
+            className="absolute inset-y-0 right-0 w-28 object-cover object-top [mask-image:linear-gradient(to_left,black_60%,transparent)] [-webkit-mask-image:linear-gradient(to_left,black_60%,transparent)]"
+          />
+        )}
       </Card>
       <Card className="@container/card">
         <CardHeader>
