@@ -2,10 +2,7 @@
 
 import * as React from "react"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -15,20 +12,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { SquaresFourIcon, ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, DatabaseIcon, CommandIcon } from "@phosphor-icons/react"
+import { ListIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, DatabaseIcon } from "@phosphor-icons/react"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Match data",
       url: "/",
       icon: (
-        <SquaresFourIcon
+        <DatabaseIcon
+        />
+      ),
+    },
+    {
+      title: "About data",
+      url: "/faq",
+      icon: (
+        <FileTextIcon
         />
       ),
     },
@@ -90,26 +90,6 @@ const data = {
       ],
     },
   ],
-  navSecondary: [
-    {
-      title: "FAQ",
-      url: "/faq",
-      icon: (
-        <FileTextIcon
-        />
-      ),
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: (
-        <DatabaseIcon
-        />
-      ),
-    },
-  ],
 }
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -121,19 +101,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:p-1.5!"
               render={<a href="#" />}
             >
-              <CommandIcon className="size-5!" />
-              <span className="text-base font-semibold">Acme Inc.</span>
+              <span className="flex size-5! items-center justify-center text-base font-bold">
+                L
+              </span>
+              <span className="text-base font-semibold">League data</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
+      <SidebarFooter className="group-data-[collapsible=icon]:hidden">
+        <p className="px-2 py-1 text-xs text-muted-foreground">
+          This project is not officially endorsed or related to Riot Games.
+          Data sourced from official League of Legends public API.
+        </p>
       </SidebarFooter>
     </Sidebar>
   )
