@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# League Analytics Platform
 
-## Getting Started
+A League of Legends analytics platform: a Python crawler (WSL) ingests match data from Riot's API into a Supabase Postgres database. The frontend is Next.js + shadcn/ui (React 19, TypeScript), querying Postgres directly via raw `pg` Pool calls — no ORM. Business logic is separated out into tested modules, with Vitest covering pure logic and mocked-Pool queries. GitHub Actions runs the test suite on every push/PR to `main`. Deployed on Vercel.
 
-First, run the development server:
+**[Live demo](https://leaguefrontend.vercel.app/)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech stack
+
+- **Frontend**: Next.js 16, React 19, TypeScript, shadcn/ui, Tailwind
+- **Backend/data access**: raw `pg` Pool queries (no ORM)
+- **Database**: PostgreSQL (Supabase)
+- **Data ingestion**: Python crawler (WSL), Riot API
+- **Testing**: Vitest (pure logic + mocked-Pool queries)
+- **CI/CD**: GitHub Actions
+- **Deployment**: Vercel
+
+## Architecture
+
+```
+Riot API → Python crawler (WSL) → Supabase Postgres ← raw pg Pool ← Next.js app → Vercel
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Business logic lives outside route handlers and components, in tested modules:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `src/lib/transforms.ts` — pure data-shaping functions (e.g. `shapeMatchesByMonth`, `findMostActiveMonth`)
+- `src/lib/queries/leaderboard.ts` — SQL query functions (e.g. `fetchLeaderboard`), tested against a mocked Pool
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Why raw `pg` instead of an ORM?** I wanted full visibility into the SQL actually hitting the database, rather than trusting an abstraction layer to write it for me. The trade-off is more boilerplate and no compile-time query safety — a fair one for a portfolio project meant to demonstrate SQL fluency directly.
 
-## Learn More
+## Getting started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js (version)
+- Python (version) — for the crawler
+- A Supabase project (or any Postgres instance)
+- A Riot Games API key
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Environment variables
 
-## Deploy on Vercel
+Create a `.env.local` in the frontend root:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+DATABASE_URL=<your-supabase-connection-string>
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a `.env` for the crawler:
+
+```
+RIOT_API_KEY=<your-riot-api-key>
+DATABASE_URL=<your-supabase-connection-string>
+```
+
+### Running the frontend
+
+```bash
+npm install
+npm run dev
+```
+
+### Running the crawler
+
+```bash
+# from the crawler directory
+pip install -r requirements.txt
+python crawler.py
+```
+
+## Testing
+
+```bash
+npm run test
+```
+
+Currently covers pure logic (`transforms.ts`) and query functions against a mocked Pool. Component rendering tests and a real Postgres integration test in CI are deferred — see Roadmap.
+
+## Roadmap / known limitations
+
+- [ ] Real Postgres integration test in CI (currently mocked-Pool only)
+- [ ] Component rendering tests (blocked on a Babel/Rolldown peer-dependency conflict between `@testing-library/react` and shadcn's dependency tree)
