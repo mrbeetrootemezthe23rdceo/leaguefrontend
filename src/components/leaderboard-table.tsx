@@ -55,7 +55,7 @@ export default function LeaderboardTable({
   roleData: RoleRow[];
   championData: ChampionRow[];
 }) {
-  const [view, setView] = useState<ViewMode>('role');
+  const [view, setView] = useState<ViewMode>('champion');
   const [sortKey, setSortKey] = useState<SortKey>('games_played');
   const [sortDesc, setSortDesc] = useState(true);
 
@@ -103,11 +103,11 @@ export default function LeaderboardTable({
         variant="outline"
         className="self-start"
       >
-        <ToggleGroupItem value="role" className="cursor-pointer data-[pressed]:cursor-default">
-          Show role data
-        </ToggleGroupItem>
         <ToggleGroupItem value="champion" className="cursor-pointer data-[pressed]:cursor-default">
           Show champion data
+        </ToggleGroupItem>
+        <ToggleGroupItem value="role" className="cursor-pointer data-[pressed]:cursor-default">
+          Show role data
         </ToggleGroupItem>
       </ToggleGroup>
       <Table>
