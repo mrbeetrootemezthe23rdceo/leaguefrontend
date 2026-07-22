@@ -1,3 +1,4 @@
+import { shapeMatchesByMonth, findMostActiveMonth } from "@/lib/transform";
 import { AppSidebar } from "@/components/app-sidebar"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { SectionCards } from "@/components/section-cards"
@@ -55,10 +56,7 @@ async function getMatchesByMonth() {
     GROUP BY match_month
     ORDER BY match_month;
   `);
-  return result.rows.map((row) => ({
-    month: row.match_month as string,
-    matches: Number(row.matches_count),
-  }));
+  return shapeMatchesByMonth(result.rows);
 }
 
 async function getChampionLeaderboard() {
@@ -110,9 +108,7 @@ export default async function Page() {
   const highestWinRateChampion = await getHighestWinRateChampion();
   const totalMatches = await getTotalMatches();
   const matchesByMonth = await getMatchesByMonth();
-  const mostActiveMonth = matchesByMonth.reduce<
-    { month: string; matches: number } | undefined
-  >((max, current) => (!max || current.matches > max.matches ? current : max), undefined);
+  const mostActiveMonth = findMostActiveMonth(matchesByMonth);
 
   return (
     <SidebarProvider
