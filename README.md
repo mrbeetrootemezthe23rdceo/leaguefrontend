@@ -2,9 +2,9 @@
 
 A League of Legends analytics platform: a Python crawler (WSL) ingests match data from Riot's API into a Supabase Postgres database. The frontend is Next.js + shadcn/ui (React 19, TypeScript), querying Postgres directly via raw `pg` Pool calls — no ORM. Business logic is separated out into tested modules, with Vitest covering pure logic and mocked-Pool queries. GitHub Actions runs the test suite on every push/PR to `main`. Deployed on Vercel.
 
-**[Live demo](https://leaguefrontend.vercel.app/)**
+## Live demo https://leaguefrontend.vercel.app/
 
-## Sister project: https://github.com/mrbeetrootemezthe23rdceo/leaguepipeline
+Sister project(ingestion pipeline): https://github.com/mrbeetrootemezthe23rdceo/leaguepipeline
 
 ## Tech stack
 
