@@ -4,6 +4,8 @@ A League of Legends analytics platform: a Python crawler (WSL) ingests match dat
 
 **[Live demo](https://leaguefrontend.vercel.app/)**
 
+## Sister project: https://github.com/mrbeetrootemezthe23rdceo/leaguepipeline
+
 ## Tech stack
 
 - **Frontend**: Next.js 16, React 19, TypeScript, shadcn/ui, Tailwind
