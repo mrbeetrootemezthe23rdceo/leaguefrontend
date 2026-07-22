@@ -22,7 +22,7 @@ export default function Page() {
               <div className="px-4 lg:px-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>FAQ</CardTitle>
+                    <CardTitle>About project</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">Content coming soon.</p>
