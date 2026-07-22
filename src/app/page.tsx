@@ -146,6 +146,10 @@ export default async function Page() {
               </div>
             </div>
           </div>
+          <footer className="px-4 py-4 text-xs text-muted-foreground lg:px-6">
+            This project isn&apos;t endorsed by Riot Games and doesn&apos;t reflect the views or opinions of
+            Riot Games or anyone officially involved in producing or managing League of Legends.
+          </footer>
         </div>
       </SidebarInset>
     </SidebarProvider>

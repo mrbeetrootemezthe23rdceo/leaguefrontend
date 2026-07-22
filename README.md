@@ -80,3 +80,7 @@ Currently covers pure logic (`transforms.ts`) and query functions against a mock
 
 - [ ] Real Postgres integration test in CI (currently mocked-Pool only)
 - [ ] Component rendering tests (blocked on a Babel/Rolldown peer-dependency conflict between `@testing-library/react` and shadcn's dependency tree)
+
+## Legal
+
+This project isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc.
