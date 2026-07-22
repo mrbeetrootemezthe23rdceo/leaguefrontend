@@ -24,8 +24,32 @@ export default function Page() {
                   <CardHeader>
                     <CardTitle>About project</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">Content coming soon.</p>
+                  <CardContent className="flex flex-col gap-4 text-muted-foreground">
+                    <p>
+                      I made this project for fun. I gathered data from Riot&apos;s official API
+                      and built visualizations showing popular trends across League of Legends
+                      champions.
+                    </p>
+                    <p>
+                      The data here is fairly limited, mainly because personal API keys come with
+                      strict rate limits. Getting around that would need an enterprise key, which
+                      Riot doesn&apos;t hand out for personal projects. Because of that, other
+                      sites already do this kind of analysis better than I have here. This was
+                      mostly a chance to practice building something real, not to compete with
+                      them.
+                    </p>
+                    <p>
+                      The technical details are documented on GitHub if you&apos;re curious.
+                      Thanks for stopping by!{" "}
+                      <a
+                        href="https://github.com/mrbeetrootemezthe23rdceo/leaguefrontend"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-4 hover:text-foreground"
+                      >
+                        https://github.com/mrbeetrootemezthe23rdceo/leaguefrontend
+                      </a>
+                    </p>
                   </CardContent>
                 </Card>
               </div>
