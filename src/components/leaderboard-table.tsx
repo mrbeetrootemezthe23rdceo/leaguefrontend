@@ -78,11 +78,11 @@ export default function LeaderboardTable({
 
   function SortableHead({ label, sortKeyName }: { label: string; sortKeyName: SortKey }) {
     return (
-      <TableHead
-        className="text-right cursor-pointer select-none"
-        onClick={() => handleSort(sortKeyName)}
-      >
-        <span className="inline-flex items-center gap-1">
+      <TableHead className="text-right">
+        <span
+          className="inline-flex items-center gap-1 cursor-pointer select-none rounded px-2 py-1 -mx-2 -my-1 hover:bg-accent"
+          onClick={() => handleSort(sortKeyName)}
+        >
           {label}
           <ArrowUpDown className="h-3 w-3 opacity-50" />
         </span>
