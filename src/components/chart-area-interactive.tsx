@@ -92,9 +92,15 @@ export function ChartAreaInteractive({ data }: { data: MatchesByMonth[] }) {
             variant="outline"
             className="hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"
           >
-            <ToggleGroupItem value="12m">Last 12 months</ToggleGroupItem>
-            <ToggleGroupItem value="6m">Last 6 months</ToggleGroupItem>
-            <ToggleGroupItem value="3m">Last 3 months</ToggleGroupItem>
+            <ToggleGroupItem value="12m" className="cursor-pointer data-[pressed]:cursor-default">
+              Last 12 months
+            </ToggleGroupItem>
+            <ToggleGroupItem value="6m" className="cursor-pointer data-[pressed]:cursor-default">
+              Last 6 months
+            </ToggleGroupItem>
+            <ToggleGroupItem value="3m" className="cursor-pointer data-[pressed]:cursor-default">
+              Last 3 months
+            </ToggleGroupItem>
           </ToggleGroup>
           <Select
             value={timeRange}
