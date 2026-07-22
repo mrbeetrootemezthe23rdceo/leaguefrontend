@@ -33,8 +33,8 @@ Business logic lives outside route handlers and components, in tested modules:
 
 ### Prerequisites
 
-- Node.js (version)
-- Python (version) — for the crawler
+- Node.js 24+
+- Python 3.12+ — for the crawler
 - A Supabase project (or any Postgres instance)
 - A Riot Games API key
 
